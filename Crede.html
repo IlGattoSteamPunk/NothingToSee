@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Website - Credentials</title>
+</head>
+<body>
+    <h1>Encrypted Credentials</h1>
+    <div id="credentials"></div>
+
+    <script>
+        // Retrieve the encrypted credentials from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const encryptedCredentials = urlParams.get('encrypted_credentials');
+
+        // Display the encrypted credentials on the webpage
+        const credentialsDiv = document.getElementById('credentials');
+        credentialsDiv.innerText = encryptedCredentials;
+
+        // Send the encrypted credentials to your backend for further processing
+        fetch('/process-credentials', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ encrypted_credentials: encryptedCredentials })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Encrypted credentials successfully processed.');
+            } else {
+                console.error('Failed to process encrypted credentials.');
+            }
+        })
+        .catch(error => {
+            console.error('An error occurred while processing encrypted credentials:', error);
+        });
+    </script>
+</body>
+</html>
